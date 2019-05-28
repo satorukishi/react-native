@@ -1,34 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Seasons from './components/Seasons';
-import { SafeAreaView } from 'react-navigation';
 
-export default class App extends React.Component {
-  getData(season) {
-    const url = `http://ergast.com/api/f1/${season}.json?limit=10&offset=999`;
-    console.log(url);
+import {
+  createStackNavigator,
+  createAppContainer,
+} from 'react-navigation';
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }
+import HomeScreen from './views/Home';
+import TemporadaDetalheScreen from './views/TemporadaDetalhe';
 
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Seasons joaozinho={ this.getData } />
-      </SafeAreaView>
-    );
-  }
-}
+const AppNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+    },
+    TemporadaDetalhe: {
+      screen: TemporadaDetalheScreen,
+    },
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // Adicionar as demais telas aqui
   },
-});
+  {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#333',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  },
+);
+
+export default createAppContainer(AppNavigator);
