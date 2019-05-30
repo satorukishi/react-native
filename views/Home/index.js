@@ -1,41 +1,43 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Seasons from '../../components/Seasons';
 import { SafeAreaView } from 'react-navigation';
+import LogoTitle from '../../components/LogoTitle';
+
 
 export default class App extends React.Component {
-  constructor(props) {
-      super(props);
+    constructor(props) {
+        super(props);
 
-      this.redirectTo = this.redirectTo.bind(this);
-  }
-  static navigationOptions = () => {
-      return {
-          title: 'Home',
-      };
-  }
+        this.redirectTo = this.redirectTo.bind(this);
+    }
+    static navigationOptions = () => {
+        return {
+            headerTitle: <LogoTitle />,
+        };
+    }
 
-  redirectTo(season) {
-      this.props.navigation.navigate('TemporadaDetalhe', {
-          season,
-          name: 'Satoru Kishi',
-      })
-  }
+    redirectTo(season) {
+        console.log(season);
+        this.props.navigation.navigate('Menu', {
+            season,
+        })
+    }
 
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Seasons temporada={ this.redirectTo } />
-      </SafeAreaView>
-    );
-  }
+    render() {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Seasons temporada={ this.redirectTo } />
+            </SafeAreaView>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

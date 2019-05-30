@@ -66,15 +66,6 @@ export default class TemporadaDetalhe extends React.Component {
         //   key={ race.round }
         />
     )
-    // renderItem(race) {
-    //     return (
-    //         <ListItem
-    //             key={ race.round }
-    //             title={ race.raceName }
-    //             subtitle={ race.date }
-    //         />
-    //     );
-    // }
 
     render() {
         const { loading } = this.state;

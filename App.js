@@ -1,36 +1,42 @@
-import React from 'react';
-
 import {
   createStackNavigator,
   createAppContainer,
 } from 'react-navigation';
 
 import HomeScreen from './views/Home';
+import ListaPilotosScreen from './views/ListaPilotos';
+import MenuScreen from './views/Menu';
 import TemporadaDetalheScreen from './views/TemporadaDetalhe';
 
 const AppNavigator = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen,
-    },
-    TemporadaDetalhe: {
-      screen: TemporadaDetalheScreen,
-    },
+    {
+        Home: {
+            screen: HomeScreen,
+        },
+        // Adicionar as demais telas aqui
+        Menu: {
+            screen: MenuScreen,
+        },
+        TemporadaDetalhe: {
+            screen: TemporadaDetalheScreen,
+        },
+        ListaPilotos: {
+            screen: ListaPilotosScreen,
+        },
 
-    // Adicionar as demais telas aqui
-  },
-  {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#333',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
+    },
+    {
+      initialRouteName: 'Home',
+      defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#333',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
       },
     },
-  },
 );
 
 export default createAppContainer(AppNavigator);
