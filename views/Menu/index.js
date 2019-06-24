@@ -1,22 +1,31 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, TouchableHighlight } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
-
-import { Button, Text } from 'native-base';
 
 import style from './style';
 
+
 export default class Menu extends PureComponent {
-    state = {
-        season: this.props.navigation.getParam('season'),
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            Roboto: require("native-base/Fonts/Roboto.ttf"),
+            Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+            Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
+        });
+        this.setState({
+            loading: false,
+            season: this.props.navigation.getParam('season'),
+        });
     }
 
     constructor(props) {
         super(props);
-  
+        this.state = { loading: true };
+
         this.abrirTemporada = this.abrirTemporada.bind(this);
         this.abrirListaPilotos = this.abrirListaPilotos.bind(this);
     }
+
     static navigationOptions = (props) => {
 
         return {
@@ -25,33 +34,35 @@ export default class Menu extends PureComponent {
     }
     
     abrirTemporada() {
-        console.log('Abrindo temporada');
-        this.props.navigation.navigate('TemporadaDetalhe', {
-            season: this.props.navigation.getParam('season'),
+        const { season } = this.state;
+        this.props.navigation.navigate('ListaCorridas', {
+            season,
         })
     }
     
     abrirListaPilotos() {
-        console.log('Abrindo a lista de pilotos');
+        const { season } = this.state;
+        
         this.props.navigation.navigate('ListaPilotos', {
-            season: this.state.season,
+            season,
         })
     }
 
     render() {
-        const { season } = this.state;
-        console.log('Temporada:' + season);
-
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
+        
         return (
-            <SafeAreaView>
-                <View style={ style.container }>
-                    <Button key='btnCorrida' onPress={ () => this.abrirTemporada()}>
-                        <Text>Corridas</Text>
-                    </Button>
-                    <Button key='btnPiloto' onPress={ () => this.abrirListaPilotos()}>
-                        <Text>Pilotos</Text>
-                    </Button>
-                </View>
+            <SafeAreaView style={ style.container }>
+                <TouchableHighlight 
+                    style={ style.botaoEspaco}>
+                    <Button key='btnCorrida' color="#fe1e00" onPress={ () => this.abrirTemporada()} title="Corridas" />
+                </TouchableHighlight>
+                <TouchableHighlight 
+                    style={ style.botaoEspaco}>
+                    <Button key='btnPiloto' color="#fe1e00" onPress={ () => this.abrirListaPilotos()} title="Pilotos" />
+                </TouchableHighlight>
             </SafeAreaView>
         );
     }

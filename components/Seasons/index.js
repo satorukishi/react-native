@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import { Button, Text } from 'native-base';
+import { Button, TouchableHighlight, View } from 'react-native';
 
 import style from './style';
 
@@ -11,13 +10,16 @@ class Seasons extends PureComponent {
         for (let i = 0; i < 20; i++) {
             const year = '20'+ (i > 9 ? i : `0${i}`);
             items.push(
-                <Button
-                    onPress={ () => this.props.temporada(year) }
-                    key={ `season-${i}` }>
-                    <Text>
-                        { year }
-                    </Text>
-                </Button>
+                <TouchableHighlight 
+                    style={ style.botaoEspaco}
+                    key={ `th-${i}`}>
+                    <Button
+                        color="#fe1e00"
+                        onPress={ () => this.props.temporada(year) }
+                        key={ `season-${i}` }
+                        title={year}>
+                    </Button>
+                </TouchableHighlight> 
             );
         }
 

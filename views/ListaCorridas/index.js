@@ -1,27 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, ToastAndroid } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { ListItem } from 'react-native-elements'
 import { FlatList } from 'react-native-gesture-handler';
+import style from './style';
 
 export default class TemporadaDetalhe extends React.Component {
-    state = {
-        season: this.props.navigation.getParam('season'),
-        name: this.props.navigation.getParam('name'),
-        loading: true,
-        data: [],
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            Roboto: require("native-base/Fonts/Roboto.ttf"),
+            Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+            Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
+        });
     }
 
-
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            loading: true,
+            season: this.props.navigation.getParam('season'),
+        };
+    }
 
     // Sempre que entrar nesta tela
     componentDidMount() {
         this.getData(this.state.season);
     }
 
-    static navigationOptions = () => {
+    static navigationOptions = (props) => {
         return {
-            title: 'Detalhes da Temporada',
+            title: 'Corridas da Temporada ' + props.navigation.state.params.season,
         };
     }
 
@@ -40,6 +49,7 @@ export default class TemporadaDetalhe extends React.Component {
         })
         .catch((err) => {
             console.log(err);
+            ToastAndroid.show(err, ToastAndroid.LONG);
         });
     }
 
@@ -47,8 +57,7 @@ export default class TemporadaDetalhe extends React.Component {
     keyExtractor = (item, index) => index.toString()
     renderConteudo() {
         const { data } = this.state; // destruct (pega o "data" dentro de this.state e joga em uma constante "data")
-        console.log(data);
-
+        
         // return data.map(this.renderItem);
         return (
             <FlatList
@@ -61,13 +70,26 @@ export default class TemporadaDetalhe extends React.Component {
     
     renderItem = ({ item }) => (
         <ListItem
-          title={item.raceName}
-          subtitle={item.date}
-        //   key={ race.round }
+            style={ style.liCorridas }
+            title={item.raceName}
+            subtitle={item.date}
+            onPress={ () => this.abrirDetalheCorrida(item.round)}
         />
     )
 
+    abrirDetalheCorrida(round) {
+        const { season } = this.state;
+
+        this.props.navigation.navigate('DetalheCorrida', {
+            season,
+            round,
+        })
+    }
+
     render() {
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
         const { loading } = this.state;
 
         return (
@@ -83,12 +105,3 @@ export default class TemporadaDetalhe extends React.Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});

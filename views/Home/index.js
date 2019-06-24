@@ -8,9 +8,19 @@ import LogoTitle from '../../components/LogoTitle';
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-
+        this.state = { loading: true };
         this.redirectTo = this.redirectTo.bind(this);
     }
+
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            Roboto: require("native-base/Fonts/Roboto.ttf"),
+            Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+            Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
+        });
+        this.setState({ loading: false });
+    }
+
     static navigationOptions = () => {
         return {
             headerTitle: <LogoTitle />,
@@ -18,13 +28,15 @@ export default class App extends React.Component {
     }
 
     redirectTo(season) {
-        console.log(season);
         this.props.navigation.navigate('Menu', {
             season,
         })
     }
 
     render() {
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
         return (
             <SafeAreaView style={styles.container}>
                 <Seasons temporada={ this.redirectTo } />
@@ -36,7 +48,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#333',
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -6,7 +6,8 @@ import {
 import HomeScreen from './views/Home';
 import ListaPilotosScreen from './views/ListaPilotos';
 import MenuScreen from './views/Menu';
-import TemporadaDetalheScreen from './views/TemporadaDetalhe';
+import ListaCorridasScreen from './views/ListaCorridas';
+import DetalheCorridaScreen from './views/DetalheCorrida';
 
 const AppNavigator = createStackNavigator(
     {
@@ -17,17 +18,20 @@ const AppNavigator = createStackNavigator(
         Menu: {
             screen: MenuScreen,
         },
-        TemporadaDetalhe: {
-            screen: TemporadaDetalheScreen,
+        ListaCorridas: {
+            screen: ListaCorridasScreen,
         },
         ListaPilotos: {
             screen: ListaPilotosScreen,
         },
+        DetalheCorrida: {
+            screen: DetalheCorridaScreen,
+        },
 
     },
     {
-      initialRouteName: 'Home',
-      defaultNavigationOptions: {
+        initialRouteName: 'Home',
+        defaultNavigationOptions: {
             headerStyle: {
                 backgroundColor: '#333',
             },
@@ -35,7 +39,8 @@ const AppNavigator = createStackNavigator(
             headerTitleStyle: {
                 fontWeight: 'bold',
             },
-      },
+            
+        },
     },
 );
 
